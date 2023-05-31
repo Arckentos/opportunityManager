@@ -9,7 +9,14 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import QuickView from '@/Pages/Opportunities/QuickView.vue';
 import { ArrowUpOnSquareIcon } from '@heroicons/vue/24/outline';
+import { onBeforeMount } from 'vue';
 
+/**
+ * Props
+ */
+ const props = defineProps({ opportunities: Object });
+
+ 
 /**
  * Variables
  */
@@ -86,6 +93,34 @@ const filters = useForm({
             label: 'Account Name',
             value: true,
         },
+        sbu: {
+            label: 'SBU',
+            value: true,
+        },
+        projectName: {
+            label: 'Project Name',
+            value: true,
+        },
+        status: {
+            label: 'Status',
+            value: true,
+        },
+        annualRev: {
+            label: 'Annual Rev',
+            value: true,
+        },
+        ltr: {
+            label: 'LTR',
+            value: true,
+        },
+        ltq: {
+            label: 'LTQ',
+            value: true,
+        },
+        sop: {
+            label: 'SOP',
+            value: true,
+        },
         gam: {
             label: 'GAM',
             value: false,
@@ -147,6 +182,9 @@ const isFiltersOwnersOpen = ref(false);
 const isFiltersStatusesOpen = ref(false);
 const isQuickViewOpen = ref(false);
 
+const quickViewOpportunity = ref({});
+
+
 /**
  * Functions
  */
@@ -175,13 +213,14 @@ function toggleFiltersStatuses() {
     isFiltersStatusesOpen.value = !isFiltersStatusesOpen.value
 }
 
-function openQuickView(idOpp) {
-    // Get the quick data for the idOpp
+function openQuickView(opportunityId) {
     isQuickViewOpen.value = true;
+    quickViewOpportunity.value = props.opportunities[opportunityId];
 }
 
 function closeQuickView() {
     isQuickViewOpen.value = false;
+    quickViewOpportunity.value = {};
 }
 </script>
 
@@ -212,7 +251,7 @@ function closeQuickView() {
                     </div>
 
                     <!-- Filters window -->
-                    <div class="relative w-full transition-all ease-in-out delay-75 transform" v-if="isFiltersWindowOpen">
+                    <div class="relative w-full" v-if="isFiltersWindowOpen">
                         <div class="absolute top-0 flex bg-white border border-gray-200 divide-x divide-gray-200 rounded-lg rounded-tr-none shadow right-4 min-w-1/6 sm:rounded-tr-lg">
                             <!-- Filters options -->
                             <div class="divide-y divide-gray-200">
@@ -392,65 +431,47 @@ function closeQuickView() {
                                         <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.site.value">Site</th>
                                         <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.owner.value">Owner</th>
                                         <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.accountName.value">Account name</th>
-                                        <th class="p-2 font-bold text-left text-gray-900">SBU</th>
-                                        <th class="p-2 font-bold text-left text-gray-900">Project Name</th>
-                                        <th class="p-2 font-bold text-left text-gray-900">Status</th>
-                                        <th class="p-2 font-bold text-left text-gray-900">Annual Rev (k€)</th>
-                                        <th class="p-2 font-bold text-left text-gray-900">LTR (M€)</th>
-                                        <th class="p-2 font-bold text-left text-gray-900">LTQ (ku)</th>
-                                        <th class="p-2 font-bold text-left text-gray-900">SOP</th>
+                                        <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.sbu.value">SBU</th>
+                                        <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.projectName.value">Project Name</th>
+                                        <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.status.value">Status</th>
+                                        <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.annualRev.value">Annual Rev (k€)</th>
+                                        <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.ltr.value">LTR (M€)</th>
+                                        <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.ltq.value">LTQ (ku)</th>
+                                        <th class="p-2 font-bold text-left text-gray-900" v-if="filters.columns.sop.value">SOP</th>
                                         <th class="p-2 pr-4"></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td class="px-2 py-1 text-gray-900" v-if="filters.columns.opp.value">23001BMSCPv1</td>
-                                        <td class="px-2 py-1 text-gray-900" v-if="filters.columns.site.value">BMS</td>
-                                        <td class="px-2 py-1 text-gray-900" v-if="filters.columns.owner.value">CPA</td>
-                                        <td class="flex justify-start gap-2 px-2 py-1 text-gray-900" v-if="filters.columns.accountName.value">
-                                            <img class="w-5 h-5" :src="'/upload/accounts/tesla/tesla.png'" alt="Tesla Logo">
-                                            <span>Tesla</span>
-                                        </td>
-                                        <td class="px-2 py-1 text-gray-900">AUT</td>
-                                        <td class="px-2 py-1 text-gray-900">Model A BMU</td>
-                                        <td class="px-2 py-1 text-center text-gray-900 bg-green-300">Won</td>
-                                        <td class="px-2 py-1 text-right text-gray-900">1 000</td>
-                                        <td class="px-2 py-1 text-right text-gray-900">7,000</td>
-                                        <td class="px-2 py-1 text-right text-gray-900">140</td>
-                                        <td class="px-2 py-1 text-gray-900">Q4 2024</td>
-                                        <td class="flex justify-between gap-2 px-2 py-1">
-                                            <button class="text-red-600 hover:underline underline-offset-4" @click="openQuickView">Quick view</button>
-                                            <Link class="text-red-600 hover:underline underline-offset-4" href="/opportunities/1" method="get" as="button">Edit</Link>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-2 py-1 text-gray-900" v-if="filters.columns.opp.value">23001BMSCPv1</td>
-                                        <td class="px-2 py-1 text-gray-900" v-if="filters.columns.site.value">BMS</td>
-                                        <td class="px-2 py-1 text-gray-900" v-if="filters.columns.owner.value">CPA</td>
-                                        <td class="flex justify-start gap-2 px-2 py-1 text-gray-900" v-if="filters.columns.accountName.value">
-                                            <img class="w-5 h-5" :src="'/upload/accounts/tesla/tesla.png'" alt="Tesla Logo">
-                                            <span>Tesla</span>
-                                        </td>
-                                        <td class="px-2 py-1 text-gray-900">AUT</td>
-                                        <td class="px-2 py-1 text-gray-900">Model A BMU</td>
-                                        <td class="px-2 py-1 text-center text-gray-900 bg-green-300">Won</td>
-                                        <td class="px-2 py-1 text-right text-gray-900">1 000</td>
-                                        <td class="px-2 py-1 text-right text-gray-900">7,000</td>
-                                        <td class="px-2 py-1 text-right text-gray-900">140</td>
-                                        <td class="px-2 py-1 text-gray-900">Q4 2024</td>
-                                        <td class="flex justify-between gap-2 px-2 py-1">
-                                            <button class="text-red-600 hover:underline underline-offset-4" @click="openQuickView">Quick view</button>
-                                            <Link class="text-red-600 hover:underline underline-offset-4" href="/opportunities/1" method="get" as="button">Edit</Link>
-                                        </td>
-                                    </tr>
+                                    <template v-for="(opportunity, index) in opportunities">
+                                        <tr>
+                                            <td class="px-2 py-1 text-gray-900" v-if="filters.columns.opp.value">{{ opportunity.opp }}</td>
+                                            <td class="px-2 py-1 text-gray-900" v-if="filters.columns.site.value">{{ opportunity.site }}</td>
+                                            <td class="px-2 py-1 text-gray-900" v-if="filters.columns.owner.value">{{ opportunity.owner }}</td>
+                                            <td class="flex justify-start gap-2 px-2 py-1 text-gray-900" v-if="filters.columns.accountName.value">
+                                                <img class="w-5 h-5" :src="'/upload/accounts/tesla/tesla.png'" alt="Tesla Logo">
+                                                <span>{{ opportunity.accountName }}</span>
+                                            </td>
+                                            <td class="px-2 py-1 text-gray-900" v-if="filters.columns.sbu.value">{{ opportunity.sbu }}</td>
+                                            <td class="px-2 py-1 text-gray-900" v-if="filters.columns.projectName.value">{{ opportunity.projectName }}</td>
+                                            <td class="px-2 py-1 text-center text-gray-900 bg-green-300" v-if="filters.columns.status.value">{{ opportunity.status }}</td>
+                                            <td class="px-2 py-1 text-right text-gray-900" v-if="filters.columns.annualRev.value">{{ opportunity.annualRev }}</td>
+                                            <td class="px-2 py-1 text-right text-gray-900" v-if="filters.columns.ltr.value">{{ opportunity.ltr }}</td>
+                                            <td class="px-2 py-1 text-right text-gray-900" v-if="filters.columns.ltq.value">{{ opportunity.ltq }}</td>
+                                            <td class="px-2 py-1 text-gray-900" v-if="filters.columns.sop.value">{{ opportunity.sop }}</td>
+                                            <td class="flex justify-between gap-2 px-2 py-1">
+                                                <button class="text-red-600 hover:underline underline-offset-4" @click="openQuickView(opportunity.id)">Quick view</button>
+                                                <Link class="text-red-600 hover:underline underline-offset-4" :href="'/opportunities/' + opportunity.id" method="get" as="a">Edit</Link>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
                     <!-- QuickView -->
-                    <QuickView v-if="isQuickViewOpen" @close-quick-view="closeQuickView"></QuickView>
+                    <QuickView v-if="isQuickViewOpen" :quick-view-opportunity="quickViewOpportunity" @close-quick-view="closeQuickView"></QuickView>
                 </div>
             </div>
         </div>

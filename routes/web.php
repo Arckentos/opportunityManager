@@ -27,7 +27,38 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/opportunities', function () {
-        return Inertia::render('Opportunities');
+        return Inertia::render('Opportunities', [
+            'opportunities' => array(
+                1 => array(
+                    'id' => 1,
+                    'opp' => '23001BMSCPv1',
+                    'site' => 'BMS',
+                    'owner' => 'CPA',
+                    'accountName' => 'Tesla',
+                    'sbu' => 'AUT',
+                    'projectName' => 'Modela A BMU',
+                    'status' => 'Won',
+                    'annualRev' => '1000',
+                    'ltr' => '7,000',
+                    'ltq' => '140',
+                    'sop' => 'Q4 2024',
+                ),
+                2 => array(
+                    'id' => 2,
+                    'opp' => '23002BMSCPv1',
+                    'site' => 'BMS',
+                    'owner' => 'CPA',
+                    'accountName' => 'Airbus',
+                    'sbu' => 'IND',
+                    'projectName' => 'Airplane storage controler',
+                    'status' => 'Won',
+                    'annualRev' => '2500',
+                    'ltr' => '14,000',
+                    'ltq' => '256',
+                    'sop' => 'Q4 2026',
+                ),
+            )
+        ]);
     })->name('opportunities');
 
     Route::get('/accounts', function () {
