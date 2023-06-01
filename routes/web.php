@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,9 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    /**
+     * Opportunities
+     */
     Route::get('/opportunities', function () {
         return Inertia::render('Opportunities', [
             'opportunities' => array(
@@ -61,14 +65,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('opportunities');
 
-    Route::get('/accounts', function () {
-        return Inertia::render('Accounts');
-    })->name('accounts');
+    /**
+     * Accounts
+     */
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts');
 
+    Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');
+
+    Route::get('/accounts/{id}', [AccountController::class, 'edit'])->name('accounts.edit');
+    
+    Route::post('/accounts/store', [AccountController::class, 'store'])->name('accounts.store');
+    
+    Route::patch('/accounts/{id}', [AccountController::class, 'update'])->name('accounts.update');
+
+    /**
+     * Contacts
+     */
     Route::get('/contacts', function () {
         return Inertia::render('Contacts');
     })->name('contacts');
 
+    /**
+     * Settings
+     */
     Route::get('/settings', function () {
         return Inertia::render('Settings');
     })->name('settings');
