@@ -33,15 +33,15 @@ const form = useForm({
                     <div class="p-4">
                         <form @submit.prevent="form.post(route('accounts.store'))">
                             <InputLabel :input-id="'name'">Name</InputLabel>
-                            <TextInput id="name" v-model="form.name"></TextInput>
+                            <TextInput id="name" type="text" v-model="form.name"></TextInput>
                             <InputLabel :input-id="'type'">Type</InputLabel>
-                            <TextInput id="type" v-model="form.type"></TextInput>
+                            <TextInput id="type" type="text" v-model="form.type"></TextInput>
                             <InputLabel :input-id="'accountGroup'">Group</InputLabel>
-                            <TextInput id="accountGroup" v-model="form.accountGroup"></TextInput>
+                            <TextInput id="accountGroup" type="text" v-model="form.accountGroup"></TextInput>
                             <InputLabel :input-id="'accountOwner'">Owner</InputLabel>
-                            <TextInput id="accountOwner" v-model="form.accountOwner"></TextInput>
+                            <TextInput id="accountOwner" type="text" v-model="form.accountOwner"></TextInput>
                             <InputLabel :input-id="'industry'">Industry</InputLabel>
-                            <TextInput id="industry" v-model="form.industry"></TextInput>
+                            <TextInput id="industry" type="text" v-model="form.industry"></TextInput>
                             <PrimaryButton>Create</PrimaryButton>
                         </form>
                     </div>
