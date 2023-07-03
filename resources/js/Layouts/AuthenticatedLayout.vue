@@ -20,23 +20,23 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex items-center shrink-0">
-                                <Link :href="route('opportunities')">
+                                <Link :href="route('opportunities.index')">
                                 <ApplicationLogo class="block w-auto text-gray-800 fill-current h-9" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('opportunities')" :active="route().current('opportunities')">
+                                <NavLink :href="route('opportunities.index')" :active="route().current('opportunities.*')">
                                     Opportunities
                                 </NavLink>
-                                <NavLink :href="route('accounts')" :active="route().current('accounts')">
+                                <NavLink :href="route('accounts.index')" :active="route().current('accounts.*')">
                                     Accounts
                                 </NavLink>
-                                <NavLink :href="route('contacts')" :active="route().current('contacts')">
+                                <NavLink :href="route('contacts.index')" :active="route().current('contacts.*')">
                                     Contacts
                                 </NavLink>
-                                <NavLink :href="route('settings')" :active="route().current('settings')">
+                                <NavLink :href="route('settings.index')" :active="route().current('settings.*')">
                                     Settings
                                 </NavLink>
                                 <NavLink :href="'#'">
@@ -86,16 +86,16 @@ const showingNavigationDropdown = ref(false);
                 <!-- Responsive Navigation Menu -->
                 <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('opportunities')" :active="route().current('opportunities')">
+                        <ResponsiveNavLink :href="route('opportunities.index')" :active="route().current('opportunities.*')">
                             Opportunities
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('accounts')" :active="route().current('accounts')">
+                        <ResponsiveNavLink :href="route('accounts.index')" :active="route().current('accounts.*')">
                             Accounts
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('contacts')" :active="route().current('contacts')">
+                        <ResponsiveNavLink :href="route('contacts.index')" :active="route().current('contacts.*')">
                             Contacts
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('settings')" :active="route().current('settings')">
+                        <ResponsiveNavLink :href="route('settings.index')" :active="route().current('settings.*')">
                             Settings
                         </ResponsiveNavLink>
                     </div>
