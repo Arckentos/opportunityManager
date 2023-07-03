@@ -237,7 +237,7 @@ function closeQuickView() {
 
         <div class="py-6">
             <div class="mx-auto max-w-8xl sm:px-6 lg:px-8">
-                <div class="relative bg-white shadow-sm sm:rounded-lg">
+                <div class="relative bg-white shadow sm:rounded-lg">
                     <!-- Filters -->
                     <div class="relative flex justify-between gap-4 p-4">
                         <select class="w-20 px-4 py-2 text-gray-900 border border-gray-200 rounded-md h-min" name="user_customization_row_number" id="user_customization_row_number" v-model="userCustomization.rowNumber">
